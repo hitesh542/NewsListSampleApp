@@ -21,9 +21,10 @@ class NewsRepository(private val apiInterface: APIInterface) {
      * Return LiveData<ArticlesResponse> that represent the listener of reponse data that will be
      * fetched from API or DB
      *
+     * @param isFromApiOnly: IsData should return from API only
      * @return LiveData<ArticlesResponse>
      */
-    fun getNewsArticles(): LiveData<ArticlesResponse> {
+    fun getNewsArticles(isFromApiOnly : Boolean): LiveData<ArticlesResponse> {
         stateObserver.value = (IConstant.ApiState.LOADING)
         fetchArticlesFromApi()
         return liveDataArticlesResponse

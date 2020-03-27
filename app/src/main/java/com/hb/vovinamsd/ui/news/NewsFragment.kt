@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.hb.vovinamsd.IConstant
 import com.hb.vovinamsd.R
 import com.hb.vovinamsd.model.ArticlesResponse
+import com.hb.vovinamsd.ui.news.adapter.NewsArticleAdapter
 import kotlinx.android.synthetic.main.main_fragment.*
 
 /**
@@ -29,6 +30,7 @@ class NewsFragment : Fragment() {
     }
 
     private lateinit var viewModel: NewsViewModel
+    private lateinit var adapter: NewsArticleAdapter
 
     private val apiStateObserver by lazy {
         Observer<IConstant.ApiState> {
@@ -69,28 +71,37 @@ class NewsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         viewModel.getApiStateObserver().observe(viewLifecycleOwner, apiStateObserver)
-        fetchData()
+        adapter = NewsArticleAdapter()
+        recyclerView.adapter = adapter
+        swipeRefresh.setOnRefreshListener {
+            fetchData(true)
+        }
+        fetchData(false)
     }
 
     /**
      * This method used to fetch the data from [NewsRepository]
      */
-    private fun fetchData() {
-        viewModel.getNewsArticles().observe(viewLifecycleOwner, articleObserver)
+    private fun fetchData(isFromApiOnly : Boolean) {
+        viewModel.getNewsArticles(isFromApiOnly).observe(viewLifecycleOwner, articleObserver)
     }
 
     /**
      * This method used to show loading dialog
      */
     private fun showLoading() {
-        progressBar.show()
+        if (!swipeRefresh.isRefreshing)
+            progressBar.show()
     }
 
     /**
      * This method used to hide the loading dialog
      */
     private fun hideLoading() {
-        progressBar.hide()
+        if (swipeRefresh.isRefreshing)
+            swipeRefresh.isRefreshing = false
+        else
+            progressBar.hide()
     }
 
     /**
@@ -109,6 +120,8 @@ class NewsFragment : Fragment() {
     }
 
     private fun setData(articlesResponse: ArticlesResponse) {
-        //TODO set the data to recycler view
+        articlesResponse.articles?.let {
+            adapter.setData(it)
+        }
     }
 }

@@ -8,8 +8,8 @@ import com.hb.vovinamsd.model.ArticlesResponse
 class NewsViewModel : ViewModel() {
     private val newsRepo: NewsRepository = NewsRepository(APIInterface.getNewsAPIService())
 
-    fun getNewsArticles(): LiveData<ArticlesResponse> {
-        return newsRepo.getNewsArticles()
+    fun getNewsArticles(isFromApiOnly : Boolean): LiveData<ArticlesResponse> {
+        return newsRepo.getNewsArticles(isFromApiOnly)
     }
 
     fun getApiStateObserver() = newsRepo.getApiStateObserver()
