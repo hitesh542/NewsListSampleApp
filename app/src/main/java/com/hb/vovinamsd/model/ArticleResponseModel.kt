@@ -1,5 +1,7 @@
 package com.hb.vovinamsd.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
@@ -9,9 +11,11 @@ data class ArticlesResponse(
     @SerializedName("articles") var articles: List<Article>?
 )
 
+@Entity(tableName = "article")
 data class Article(
     @SerializedName("author") var author: String?,
-    @SerializedName("title") var title: String?,
+    @PrimaryKey
+    @SerializedName("title") var title: String,
     @SerializedName("description") var description: String?,
     @SerializedName("url") var url: String?,
     @SerializedName("urlToImage") var urlToImage: String?,

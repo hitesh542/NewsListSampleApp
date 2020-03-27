@@ -3,6 +3,7 @@ package com.hb.vovinamsd
 interface IConstant {
     companion object {
         const val API_KEY = "2326f6505c94411ab5860e73d33cd7e6"
+        const val DB_NAME = "hb_vovinam_sd.db"
     }
 
     enum class SortBy(val key: String) {

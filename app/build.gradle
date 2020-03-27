@@ -7,6 +7,7 @@ ext.retrofit_version = '2.3.0'
 ext.rxjava_version = '2.1.2'
 ext.rxandroid_version = '2.1.1'
 ext.okhttp = '4.2.2'
+def room_version = "2.2.5"
 
 android {
     compileSdkVersion 29
@@ -72,4 +73,9 @@ dependencies {
     //image loader library : Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    //local database (Room)
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 }

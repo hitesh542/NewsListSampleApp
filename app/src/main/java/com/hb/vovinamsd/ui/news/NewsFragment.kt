@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hb.vovinamsd.IConstant
 import com.hb.vovinamsd.R
+import com.hb.vovinamsd.db.NewsDBHelper
 import com.hb.vovinamsd.model.ArticlesResponse
 import com.hb.vovinamsd.ui.news.adapter.NewsArticleAdapter
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -69,7 +70,11 @@ class NewsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            NewsViewModelFactory(NewsDBHelper.getInstance(activity!!).getArticleDao())
+        ).get(NewsViewModel::class.java)
+
         viewModel.getApiStateObserver().observe(viewLifecycleOwner, apiStateObserver)
         adapter = NewsArticleAdapter()
         recyclerView.adapter = adapter
@@ -82,7 +87,7 @@ class NewsFragment : Fragment() {
     /**
      * This method used to fetch the data from [NewsRepository]
      */
-    private fun fetchData(isFromApiOnly : Boolean) {
+    private fun fetchData(isFromApiOnly: Boolean) {
         viewModel.getNewsArticles(isFromApiOnly).observe(viewLifecycleOwner, articleObserver)
     }
 

@@ -37,7 +37,7 @@ interface APIInterface {
         fun getNewsAPIService() = apiInterface
     }
 
-    @GET("top-headlines")
+    @GET("everything")
     fun getArticles(
         @Query("sources") source: String = IConstant.Source.TECH_CRUNCH.key,
         @Query("sortBy") sortBy: String? = IConstant.SortBy.PUBLISHED_AT.key,
