@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.hb.vovinamsd.IConstant
 import com.hb.vovinamsd.R
-import com.hb.vovinamsd.db.NewsDBHelper
+import com.hb.vovinamsd.api.APIInterface
+import com.hb.vovinamsd.db.ArticleDao
+import com.hb.vovinamsd.di.DBModule
+import com.hb.vovinamsd.di.DaggerMainActivityComponent
 import com.hb.vovinamsd.model.ArticlesResponse
 import com.hb.vovinamsd.ui.news.adapter.NewsArticleAdapter
 import kotlinx.android.synthetic.main.main_fragment.*
+import javax.inject.Inject
 
 /**
  * This fragment is used to show the news listing
@@ -30,8 +33,16 @@ class NewsFragment : Fragment() {
         fun newInstance() = NewsFragment()
     }
 
-    private lateinit var viewModel: NewsViewModel
-    private lateinit var adapter: NewsArticleAdapter
+    @Inject
+    lateinit var adapter: NewsArticleAdapter
+    @Inject
+    lateinit var apiInterface: APIInterface
+    @Inject
+    lateinit var articleDao: ArticleDao
+    @Inject
+    lateinit var newsRepository: NewsRepository
+    @Inject
+    lateinit var viewModel: NewsViewModel
 
     private val apiStateObserver by lazy {
         Observer<IConstant.ApiState> {
@@ -70,13 +81,16 @@ class NewsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            NewsViewModelFactory(NewsDBHelper.getInstance(activity!!).getArticleDao())
-        ).get(NewsViewModel::class.java)
+
+        //Inject all the object here at once using Dagger 2
+        val component = DaggerMainActivityComponent
+            .builder()
+            .dBModule(DBModule(activity!!))
+            .build()
+        component.inject(this)
 
         viewModel.getApiStateObserver().observe(viewLifecycleOwner, apiStateObserver)
-        adapter = NewsArticleAdapter()
+
         recyclerView.adapter = adapter
         swipeRefresh.setOnRefreshListener {
             fetchData(true)

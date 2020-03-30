@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.hb.vovinamsd.IConstant
 import com.hb.vovinamsd.model.Article
 
-@Database(entities = [Article::class], version = 1)
+@Database(entities = [Article::class], version = 1, exportSchema = false)
 abstract class NewsDBHelper : RoomDatabase() {
     abstract fun getArticleDao(): ArticleDao
 

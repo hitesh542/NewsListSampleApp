@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hb.vovinamsd.databinding.RowNewsArticleBinding
+import com.hb.vovinamsd.di.GlideApp
 import com.hb.vovinamsd.model.Article
-import com.hb.vovinamsd.model.GlideApp
 
 class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleAdapter.NewsArticleViewHolder>() {
 
