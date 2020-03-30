@@ -22,6 +22,7 @@ VovinamSD is sample application that fetch some top news and display its headlin
 * MVVM (Model View ViewModel)
 * Data binding
 * View binding
+* Dagger 2
 * Tools attributes
 * Android JetPack components
 * Tab size : 4
@@ -33,6 +34,7 @@ VovinamSD is sample application that fetch some top news and display its headlin
 ## Third Party libraries
 * [Glide](https://github.com/bumptech/glide)
 * [Retrofit](https://square.github.io/retrofit/)
+* [Dagger 2](https://dagger.dev/)
 
 ## Modules
 * app
