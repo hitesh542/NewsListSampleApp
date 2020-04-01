@@ -2,6 +2,7 @@ package com.hb.vovinamsd.api
 
 import com.hb.vovinamsd.BuildConfig
 import com.hb.vovinamsd.IConstant
+import com.hb.vovinamsd.StaticData
 import com.hb.vovinamsd.model.ArticlesResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,7 +14,6 @@ import retrofit2.http.Query
 
 interface APIInterface {
     companion object {
-        private const val NEWS_API_URL = "https://newsapi.org/v2/"
 
         private val okHttpClient by lazy {
             val interceptor = HttpLoggingInterceptor()
@@ -27,7 +27,7 @@ interface APIInterface {
 
         private val apiInterface: APIInterface by lazy {
             Retrofit.Builder()
-                .baseUrl(NEWS_API_URL)
+                .baseUrl(StaticData().stringFromJNI("BASE_URL"))
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
